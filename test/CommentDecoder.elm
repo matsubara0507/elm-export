@@ -9,7 +9,7 @@ import Json.Decode.Pipeline exposing (..)
 
 decodeComment : Decoder Comment
 decodeComment =
-    decode Comment
+    Json.Decode.succeed Comment
         |> required "postId" int
         |> required "text" string
         |> required "mainCategories" (map2 (,) (index 0 string) (index 1 string))

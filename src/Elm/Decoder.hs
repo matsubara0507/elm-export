@@ -1,7 +1,7 @@
-{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleContexts  #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TypeOperators #-}
+{-# LANGUAGE TypeOperators     #-}
 
 module Elm.Decoder
   ( toElmDecoderRef
@@ -10,12 +10,12 @@ module Elm.Decoder
   , toElmDecoderSourceWith
   ) where
 
-import Control.Monad.Reader
-import Data.Monoid
-import qualified Data.Text as T
-import Elm.Common
-import Elm.Type
-import Text.PrettyPrint.Leijen.Text hiding ((<$>), (<>))
+import           Control.Monad.Reader
+import           Data.Monoid
+import qualified Data.Text                    as T
+import           Elm.Common
+import           Elm.Type
+import           Text.PrettyPrint.Leijen.Text hiding ((<$>), (<>))
 
 class HasDecoder a where
   render :: a -> Reader Options Doc
@@ -33,16 +33,16 @@ instance HasDecoder ElmDatatype where
   render (ElmPrimitive primitive) = renderRef primitive
 
 instance HasDecoderRef ElmDatatype where
-  renderRef (ElmDatatype name _) = pure $ "decode" <> stext name
+  renderRef (ElmDatatype name _)     = pure $ "decode" <> stext name
   renderRef (ElmPrimitive primitive) = renderRef primitive
 
 instance HasDecoder ElmConstructor where
   render (NamedConstructor name value) = do
     dv <- render value
-    return $ "decode" <+> stext name <$$> indent 4 dv
+    return $ "Json.Decode.succeed" <+> stext name <$$> indent 4 dv
   render (RecordConstructor name value) = do
     dv <- render value
-    return $ "decode" <+> stext name <$$> indent 4 dv
+    return $ "Json.Decode.succeed" <+> stext name <$$> indent 4 dv
 
 instance HasDecoder ElmValue where
   render (ElmRef name) = pure $ "decode" <> stext name
