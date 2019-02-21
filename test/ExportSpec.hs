@@ -358,10 +358,10 @@ toElmEncoderSpec =
         "Json.Encode.list (Maybe.withDefault Json.Encode.null << Maybe.map Json.Encode.string)"
       it "toElmEncoderRef (Map String (Maybe String))" $
         toElmEncoderRef (Proxy :: Proxy (Map String (Maybe String))) `shouldBe`
-        "(dict Json.Encode.string (Maybe.withDefault Json.Encode.null << Maybe.map Json.Encode.string))"
+        "(Json.Encode.dict identity (Maybe.withDefault Json.Encode.null << Maybe.map Json.Encode.string))"
       it "toElmEncoderRef (IntMap (Maybe String))" $
         toElmEncoderRef (Proxy :: Proxy (IntMap (Maybe String))) `shouldBe`
-        "(dict Json.Encode.int (Maybe.withDefault Json.Encode.null << Maybe.map Json.Encode.string))"
+        "(Json.Encode.dict String.fromInt (Maybe.withDefault Json.Encode.null << Maybe.map Json.Encode.string))"
 
 shouldMatchTypeSource
   :: ElmType a

@@ -71,10 +71,14 @@ instance HasEncoderRef ElmPrimitive where
     dx <- renderRef x
     dy <- renderRef y
     return . parens $ "tuple2" <+> dx <+> dy
-  renderRef (EDict k v) = do
-    dk <- renderRef k
+  renderRef (EDict EString v) = do
+    dk <- pure "identity"
     dv <- renderRef v
-    return . parens $ "dict" <+> dk <+> dv
+    return . parens $ "Json.Encode.dict" <+> dk <+> dv
+  renderRef (EDict EInt v) = do
+    dk <- pure "String.fromInt"
+    dv <- renderRef v
+    return . parens $ "Json.Encode.dict" <+> dk <+> dv
 
 toElmEncoderRefWith
   :: ElmType a

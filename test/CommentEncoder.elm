@@ -13,5 +13,5 @@ encodeComment x =
         , ( "mainCategories", (tuple2 Json.Encode.string Json.Encode.string) x.mainCategories )
         , ( "published", Json.Encode.bool x.published )
         , ( "created", (Json.Encode.string << toString) x.created )
-        , ( "tags", (dict Json.Encode.string Json.Encode.int) x.tags )
+        , ( "tags", (Json.Encode.dict identity Json.Encode.int) x.tags )
         ]
